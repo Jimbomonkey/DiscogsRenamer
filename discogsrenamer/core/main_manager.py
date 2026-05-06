@@ -19,12 +19,12 @@ from typing import Optional
 class MainManager(QtCore.QObject):
 
     def __init__(self, parent: Optional[QtWidgets.QWidget] = None) -> None:
+        super(MainManager, self).__init__()
         self._settings = AppSettings()
         # Create the main GUI window
         self._ui = MainWindow(self._settings)
         self._discogs_manager = DiscogsManager()
         self.parent_widget = parent
-        super(MainManager, self).__init__()
 
         # Connect signals and slots
         self._ui.release_lineedit.returnPressed.connect(self._load_release)
