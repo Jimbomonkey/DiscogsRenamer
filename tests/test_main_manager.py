@@ -69,8 +69,8 @@ def test_rename_files(monkeypatch: MonkeyPatch, qtbot: QtBot, tmp_path: Path) ->
 @fixture
 def release_data() -> ReleaseData:
     return ReleaseData(
-        release_artists="A Tribe Called Test",
-        release_title="Testify",
+        release_artists='A Tribe Called Test<>:"/\\|?*',
+        release_title='Testify<>:"/\\|?*',
         sub_tracks=False,
     )
 
@@ -111,5 +111,7 @@ def test_sanitise_trackdata(qtbot: QtBot, release_data: ReleaseData) -> None:
 
     sanitised_track = sanitised_track_data.pop()
 
+    assert sanitised_track.release.release_artists == "A Tribe Called Test(),,,"
+    assert sanitised_track.release.release_title == "Testify(),,,"
     assert sanitised_track.track_artists == expected
     assert sanitised_track.track_title == expected

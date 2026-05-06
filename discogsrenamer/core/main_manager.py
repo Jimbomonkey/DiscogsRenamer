@@ -150,6 +150,14 @@ class MainManager(QtCore.QObject):
         for track in track_data:
             sanitised_track_artists = track.track_artists.translate(sanitised_table)
             sanitised_track_title = track.track_title.translate(sanitised_table)
+            sanitised_release_artists = track.release.release_artists.translate(
+                sanitised_table
+            )
+            sanitised_release_title = track.release.release_title.translate(
+                sanitised_table
+            )
+            track.release.release_artists = sanitised_release_artists
+            track.release.release_title = sanitised_release_title
 
             sanitised_track = TrackData(
                 release=track.release,
