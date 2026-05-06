@@ -122,6 +122,7 @@ class MainManager(QtCore.QObject):
 
     def open_about_messagebox(self) -> None:
         _messagebox = AboutMessageBox()
+        _messagebox.show()
 
     def _transfer_track_names(self) -> None:
         format_str = self._settings.get("filename_format")

@@ -56,4 +56,5 @@ class AboutMessageBox(QtWidgets.QMessageBox):
 
         self.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Ok)
 
+    def show(self) -> None:
         self.exec()
