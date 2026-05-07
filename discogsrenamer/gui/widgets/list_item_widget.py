@@ -40,7 +40,9 @@ class ListItemWidget(QtWidgets.QWidget):
 
     def set_matched_text_colour(self, matched_state: bool):
         if matched_state:
-            stylesheet = "color: black;"
+            # Inherit the colour from the parent/system theme
+            # (eg dark theme) rather than hardcoding black
+            stylesheet = "color: inherit;"
         else:
             stylesheet = "color: red;"
         self._track_number.setStyleSheet(stylesheet)
