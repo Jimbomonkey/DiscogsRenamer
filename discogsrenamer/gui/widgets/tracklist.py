@@ -3,7 +3,8 @@ from PyQt6 import QtWidgets, QtCore
 from typing import Optional, Sequence
 from collections import deque
 from pathlib import Path
-import re, os
+import re
+import os
 
 from discogsrenamer.core.settings_protocol import SettingsProtocol
 from discogsrenamer.gui.widgets.list_item_widget import ListItemWidget
