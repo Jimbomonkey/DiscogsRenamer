@@ -189,7 +189,7 @@ class Tracklist(QtWidgets.QListWidget):
                 shaded = False
             tracklist_item.set_shaded(shaded)
 
-    def list_ticked_tracks(self) -> deque[TrackData] | None:
+    def list_ticked_tracks(self) -> deque[TrackData]:
 
         ticked_tracks: deque[TrackData] = deque()
 
@@ -201,7 +201,7 @@ class Tracklist(QtWidgets.QListWidget):
 
         return ticked_tracks
 
-    def list_track_renaming_info(self) -> list[tuple[str, Path, Path]] | None:
+    def list_track_renaming_info(self) -> list[tuple[str, Path, Path]]:
         ticked_tracks: list[tuple[str, Path, Path]] = []
 
         for index in range(self.count()):
@@ -215,7 +215,7 @@ class Tracklist(QtWidgets.QListWidget):
                             Path(tracklist_item.get_new_filename()),
                         )
                     )
-        return ticked_tracks if ticked_tracks else None
+        return ticked_tracks
 
     def apply_track_names(
         self, release_tracklist: deque[TrackData] | None, format_str: str
