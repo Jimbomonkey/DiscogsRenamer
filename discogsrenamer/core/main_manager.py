@@ -37,6 +37,12 @@ class MainManager(QtCore.QObject):
         self._ui.folder_listwidget.tick_count.connect(
             partial(self._ui.handle_tick_count, release_tracklist=False)
         )
+        self._ui.release_listwidget.sub_tracks_detected.connect(
+            self.open_sub_tracks_messagebox
+        )
+        self._ui.folder_listwidget.track_misnumbering_detected.connect(
+            self.open_misnumber_messagebox
+        )
         self._ui.folder_listwidget.all_ticked_new_filenames_filled.connect(
             self._ui.apply_button_enabled
         )
@@ -123,6 +129,35 @@ class MainManager(QtCore.QObject):
     def open_about_messagebox(self) -> None:
         _messagebox = AboutMessageBox()
         _messagebox.show()
+
+    def open_misnumber_messagebox(self) -> None:
+        QtWidgets.QMessageBox.warning(
+            self._ui,
+            "Check track order",
+            f"The order of the files doesn't match their track positions\n\n"
+            "This usually happens when track numbers in filenames aren't zero-padded, causing entries like track 10 to appear immediately after track 1.\n\n"
+            "You may need to reorder the list manually by dragging and dropping the tracks. Any mismatched items have been highlighted in red.",
+        )
+
+    def open_sub_tracks_messagebox(self) -> None:
+        messagebox = QtWidgets.QMessageBox(self.parent_widget)
+        messagebox.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+        messagebox.setWindowTitle("Release contains subtracks")
+        messagebox.setTextFormat(QtCore.Qt.TextFormat.RichText)
+        messagebox.setText(
+            "This release contains subtracks. Discogs does not yet provide full subtrack data through their API, "
+            "so some track names may not be loaded by this application.<br><br>"
+            "If you would like to see subtrack support added, please consider raising a support request with Discogs "
+            "so they know that it is important to you.<br><br>"
+            "You can submit a “Feature requests / suggestions” ticket here:<br><br>"
+            "<a href='https://support.discogs.com/hc/en-us/requests/new'>https://support.discogs.com/hc/en-us/requests/new</a>"
+        )
+
+        # Enable clickable links
+        messagebox.setTextInteractionFlags(
+            QtCore.Qt.TextInteractionFlag.TextBrowserInteraction
+        )
+        messagebox.exec()
 
     def _transfer_track_names(self) -> None:
         format_str = self._settings.get("filename_format")
