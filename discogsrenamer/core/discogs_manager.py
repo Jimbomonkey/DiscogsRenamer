@@ -12,7 +12,7 @@ import re
 class DiscogsManager:
     def __init__(self) -> None:
         self._client = Client(
-            f"{APP_NAME}/{APP_VERSION} +https://github.com/JimboMonkey/DiscogsRenamer"
+            f"{APP_NAME}/{APP_VERSION} +https://github.com/Jimbomonkey/DiscogsRenamer"
         )
 
     def get_release(self, release_id: int) -> Release | None:

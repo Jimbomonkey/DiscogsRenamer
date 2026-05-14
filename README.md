@@ -19,13 +19,13 @@ It retrieves release tracklisting data, allows you to match tracks to files, and
 
 ### Windows
 
-1. Download the .exe from the Assets of the [latest release](https://github.com/JimboMonkey/DiscogsRenamer/releases/latest)
+1. Download the .exe from the Assets of the [latest release](https://github.com/Jimbomonkey/DiscogsRenamer/releases/latest)
 
 2. Double‑click to run
 
 ### Linux (AppImage)
 
-1. Download the AppImage from the Assets of the [latest release](https://github.com/JimboMonkey/DiscogsRenamer/releases/latest)
+1. Download the AppImage from the Assets of the [latest release](https://github.com/Jimbomonkey/DiscogsRenamer/releases/latest)
 
 2. Make it executable:
 
