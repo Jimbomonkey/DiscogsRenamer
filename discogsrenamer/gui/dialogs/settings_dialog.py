@@ -12,11 +12,11 @@ class SettingsDialog:
         self._settings = settings
         self._ui = SettingsDialogGui()
         self._ui.format_lineedit.setValidator(make_filename_validator())
-        self._set_gui_values()
 
         self._init_connections()
 
     def show(self) -> None:
+        self._set_gui_values()
         self._ui.exec()  # only run modal loop when explicitly asked
 
     # Link GUI widgets to the functions

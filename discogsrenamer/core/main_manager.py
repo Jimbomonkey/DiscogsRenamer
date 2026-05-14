@@ -21,6 +21,7 @@ class MainManager(QtCore.QObject):
     def __init__(self, parent: Optional[QtWidgets.QWidget] = None) -> None:
         super(MainManager, self).__init__()
         self._settings = AppSettings()
+        self._settings_dialog = SettingsDialog(self._settings)
         # Create the main GUI window
         self._ui = MainWindow(self._settings)
         self._discogs_manager = DiscogsManager()
@@ -123,8 +124,7 @@ class MainManager(QtCore.QObject):
         ]
 
     def open_settings_dialog(self) -> None:
-        dialog = SettingsDialog(self._settings)
-        dialog.show()
+        self._settings_dialog.show()
 
     def open_about_messagebox(self) -> None:
         _messagebox = AboutMessageBox()
