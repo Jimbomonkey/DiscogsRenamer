@@ -30,13 +30,13 @@ It retrieves release tracklisting data, allows you to match tracks to files, and
 2. Make it executable:
 
     ```bash
-    chmod +x DiscogsRenamer-v1.0.0-x86_64.AppImage
+    chmod +x DiscogsRenamer-*.AppImage
     ```
 
 3. Run it:
 
     ```bash
-    ./DiscogsRenamer-v1.0.0-x86_64.AppImage
+    ./DiscogsRenamer-*.AppImage
     ```
 
 ## Developer Setup (Linux)
