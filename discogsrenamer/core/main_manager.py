@@ -219,6 +219,7 @@ class MainManager(QtCore.QObject):
         folder_path: Path | None = self._ui.get_folder_path()
 
         if folder_path:
+            exception_occurred = False
             for file_info in list_of_file_renaming_info:
                 original_filename = file_info[1]
                 new_filename = file_info[2]
@@ -229,13 +230,37 @@ class MainManager(QtCore.QObject):
                 full_new_file_path = folder_path / full_prefix.with_suffix(
                     file_extension
                 )
-                os.rename(
-                    full_original_file_path,
-                    full_new_file_path.with_suffix(file_extension),
+                try:
+                    # Linux doesn't raise a FileExistsError from a rename
+                    # action, so this is checked explicitly beforehand
+                    if full_new_file_path.exists():
+                        raise FileExistsError
+                    os.rename(
+                        full_original_file_path,
+                        full_new_file_path.with_suffix(file_extension),
+                    )
+                except (
+                    FileNotFoundError,
+                    PermissionError,
+                    FileExistsError,
+                ) as exception:
+                    exception_occurred = True
+                    exception_message_map: dict[type[OSError], str] = {
+                        FileNotFoundError: f"The following file could not be found for renaming \n\n{str(full_original_file_path)}",
+                        PermissionError: f"A permission denied error occurred when trying to rename \n\n{str(full_original_file_path)}",
+                        FileExistsError: f"A file with the name {str(new_filename)} already exists within\n\n {folder_path}",
+                    }
+                    aborted_message = "\n\nThe renaming process has been aborted"
+                    QtWidgets.QMessageBox.critical(
+                        self._ui,
+                        "Rename Error",
+                        exception_message_map[type(exception)] + aborted_message,
+                    )
+                    break
+            if not exception_occurred:
+                QtWidgets.QMessageBox.information(
+                    self._ui,
+                    "Rename Complete",
+                    f"The selected audio files of\n\n {folder_path} \n\nwere renamed successfully",
                 )
-            QtWidgets.QMessageBox.information(
-                self.parent_widget,
-                "Rename Complete",
-                f"Files of {folder_path} renamed successfully",
-            )
             self._read_folder_contents(folder_path)
