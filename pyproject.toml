@@ -22,4 +22,4 @@ line-length = 88
 target-version = ['py312']
 
 [tool.setuptools.dynamic]
-version = { file = "discogsrenamer/version.py" }
+version = { attr = "discogsrenamer.version.version" }
