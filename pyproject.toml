@@ -23,3 +23,6 @@ target-version = ['py312']
 
 [tool.setuptools.dynamic]
 version = { attr = "discogsrenamer.version.version" }
+
+[project.scripts]
+discogsrenamer = "discogsrenamer.main:main"
