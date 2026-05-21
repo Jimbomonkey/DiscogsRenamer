@@ -156,11 +156,11 @@ jobs:
       - name: Build Windows Executable
         shell: pwsh
         run: |
-          uv run pyinstaller --noconfirm --clean \
-            --name DiscogsRenamer \
-            --windowed \
-            --onefile \
-            --add-data "discogsrenamer/gui/icons;discogsrenamer/gui/icons" \
+          uv run pyinstaller --noconfirm --clean `
+            --name DiscogsRenamer `
+            --windowed `
+            --onefile `
+            --add-data "discogsrenamer/gui/icons;discogsrenamer/gui/icons" `
             main.py
 
       - name: Rename Windows Executable
