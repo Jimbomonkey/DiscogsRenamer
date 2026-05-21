@@ -41,9 +41,6 @@ jobs:
       - name: Sync Python dependencies from pyproject.toml
         run: uv sync --group dev
 
-      - name: Set PYTHONPATH
-        run: echo "PYTHONPATH=." >> $GITHUB_ENV
-
       - name: Run tests in virtual display
         run: xvfb-run -a uv run python -m pytest -v --capture=no
 
