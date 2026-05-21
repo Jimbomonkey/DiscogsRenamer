@@ -24,7 +24,7 @@ class AboutMessageBox(QtWidgets.QMessageBox):
             f"<br><b><i>{COMPANY_NAME}</i>"
             f"<br>Version {APP_VERSION}<br></b>"
             "<br>I welcome your feedback.  If you have any suggestions, notice a mistake, or experience any technical problems, please get in touch via this project's GitHub page"
-            "<br><a href='https://github.com/JimboMonkey/DiscogsRenamer'>https://github.com/JimboMonkey/DiscogsRenamer</a><br>"
+            "<br><a href='https://github.com/Jimbomonkey/DiscogsRenamer'>https://github.com/Jimbomonkey/DiscogsRenamer</a><br>"
             f"<br>Copyright \u00a9 2025-2026 {COMPANY_NAME}<br>"
             "<br>Button icons courtesy of <a href='https://uxwing.com'>UXWing</a><br>"
             "<br>Licensed under the GNU General Public License, version 3 (GPLv3). "
@@ -56,4 +56,5 @@ class AboutMessageBox(QtWidgets.QMessageBox):
 
         self.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Ok)
 
+    def show(self) -> None:
         self.exec()

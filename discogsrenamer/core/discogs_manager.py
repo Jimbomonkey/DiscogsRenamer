@@ -1,5 +1,5 @@
 from discogs_client import Client, Release, Track, Artist
-from discogs_client.exceptions import HTTPError, AuthorizationError
+from discogs_client.exceptions import HTTPError
 
 from discogsrenamer.gui.widgets.release_list_item import ReleaseListItem
 from discogsrenamer.core.models.release_data import ReleaseData
@@ -12,7 +12,7 @@ import re
 class DiscogsManager:
     def __init__(self) -> None:
         self._client = Client(
-            f"{APP_NAME}/{APP_VERSION} +https://github.com/JimboMonkey/DiscogsRenamer"
+            f"{APP_NAME}/{APP_VERSION} +https://github.com/Jimbomonkey/DiscogsRenamer"
         )
 
     def get_release(self, release_id: int) -> Release | None:
@@ -23,10 +23,9 @@ class DiscogsManager:
             # To capture a failed fetch, the exception needs to
             # be forced by calling for non-existent data
             _ = release.title
-        except AuthorizationError:
-            # Subclass of HTTPError, so must be handled first
-            return None
         except HTTPError:
+            # A message is displayed during the
+            # populate step if None is returned here
             return None
         return release
 

@@ -19,24 +19,24 @@ It retrieves release tracklisting data, allows you to match tracks to files, and
 
 ### Windows
 
-1. Download the .exe from the Assets of the [latest release](https://github.com/JimboMonkey/DiscogsRenamer/releases/latest)
+1. Download the .exe from the Assets of the [latest release](https://github.com/Jimbomonkey/DiscogsRenamer/releases/latest)
 
 2. Double‑click to run
 
 ### Linux (AppImage)
 
-1. Download the AppImage from the Assets of the [latest release](https://github.com/JimboMonkey/DiscogsRenamer/releases/latest)
+1. Download the AppImage from the Assets of the [latest release](https://github.com/Jimbomonkey/DiscogsRenamer/releases/latest)
 
 2. Make it executable:
 
     ```bash
-    chmod +x DiscogsRenamer-v1.0.0-x86_64.AppImage
+    chmod +x DiscogsRenamer-*.AppImage
     ```
 
 3. Run it:
 
     ```bash
-    ./DiscogsRenamer-v1.0.0-x86_64.AppImage
+    ./DiscogsRenamer-*.AppImage
     ```
 
 ## Developer Setup (Linux)
@@ -60,7 +60,7 @@ source .venv/bin/activate
 3. Install project dependencies
 
 ```bash
-uv sync --extra dev
+uv sync --group dev
 ```
 
 This installs both the runtime and development dependencies defined in pyproject.toml.
@@ -94,7 +94,7 @@ uv venv
 4. Install project dependencies
 
 ```powershell
-uv sync --extra dev
+uv sync --group dev
 ```
 
 This installs both the runtime and development dependencies defined in pyproject.toml.

@@ -3,7 +3,8 @@ from PyQt6 import QtWidgets, QtCore
 from typing import Optional, Sequence
 from collections import deque
 from pathlib import Path
-import re, os
+import re
+import os
 
 from discogsrenamer.core.settings_protocol import SettingsProtocol
 from discogsrenamer.gui.widgets.list_item_widget import ListItemWidget
@@ -16,6 +17,8 @@ from discogsrenamer.core.filename_rules import MAX_FILENAME_LENGTH
 
 class Tracklist(QtWidgets.QListWidget):
 
+    track_misnumbering_detected = QtCore.pyqtSignal()
+    sub_tracks_detected = QtCore.pyqtSignal()
     tick_count = QtCore.pyqtSignal(int)
     all_ticked_new_filenames_filled = QtCore.pyqtSignal(bool)
 
@@ -126,33 +129,10 @@ class Tracklist(QtWidgets.QListWidget):
             self._settings.get("highlight_track_misnumbering")
             and not matched_track_position
         ):
-            QtWidgets.QMessageBox.warning(
-                self.parent_widget,
-                "Check track order",
-                f"The order of the files doesn't match their track positions\n\n"
-                "This usually happens when track numbers in filenames aren't zero-padded, causing entries like track 10 to appear immediately after track 1.\n\n"
-                "You may need to reorder the list manually by dragging and dropping the tracks. Any mismatched items have been highlighted in red.",
-            )
+            self.track_misnumbering_detected.emit()
 
         if contains_sub_tracks:
-            messagebox = QtWidgets.QMessageBox(self.parent_widget)
-            messagebox.setIcon(QtWidgets.QMessageBox.Icon.Warning)
-            messagebox.setWindowTitle("Release contains subtracks")
-            messagebox.setTextFormat(QtCore.Qt.TextFormat.RichText)
-            messagebox.setText(
-                "This release contains subtracks. Discogs does not yet provide full subtrack data through their API, "
-                "so some track names may not be loaded by this application.<br><br>"
-                "If you would like to see subtrack support added, please consider raising a support request with Discogs "
-                "so they know that it is important to you.<br><br>"
-                "You can submit a “Feature requests / suggestions” ticket here:<br><br>"
-                "<a href='https://support.discogs.com/hc/en-us/requests/new'>https://support.discogs.com/hc/en-us/requests/new</a>"
-            )
-
-            # Enable clickable links
-            messagebox.setTextInteractionFlags(
-                QtCore.Qt.TextInteractionFlag.TextBrowserInteraction
-            )
-            messagebox.exec()
+            self.sub_tracks_detected.emit()
 
     def contains_track_position(self, track_position: int, text: str) -> bool:
         # Don't include file extension as it may contain numbers (eg mp3)
@@ -188,7 +168,7 @@ class Tracklist(QtWidgets.QListWidget):
                 shaded = False
             tracklist_item.set_shaded(shaded)
 
-    def list_ticked_tracks(self) -> deque[TrackData] | None:
+    def list_ticked_tracks(self) -> deque[TrackData]:
 
         ticked_tracks: deque[TrackData] = deque()
 
@@ -200,7 +180,7 @@ class Tracklist(QtWidgets.QListWidget):
 
         return ticked_tracks
 
-    def list_track_renaming_info(self) -> list[tuple[str, Path, Path]] | None:
+    def list_track_renaming_info(self) -> list[tuple[str, Path, Path]]:
         ticked_tracks: list[tuple[str, Path, Path]] = []
 
         for index in range(self.count()):
@@ -214,7 +194,7 @@ class Tracklist(QtWidgets.QListWidget):
                             Path(tracklist_item.get_new_filename()),
                         )
                     )
-        return ticked_tracks if ticked_tracks else None
+        return ticked_tracks
 
     def apply_track_names(
         self, release_tracklist: deque[TrackData] | None, format_str: str

@@ -224,7 +224,7 @@ def test_apply_button_enabled_when_all_filenames_populated(qtbot: QtBot) -> None
     assert not main_window.apply_button.isEnabled()
 
     # Simulate valid input
-    main_window.folder_listwidget.apply_track_names(ticked_tracks, "%track_title")
+    main_window.folder_listwidget.apply_track_names(ticked_tracks, "%tt")
     assert main_window.apply_button.isEnabled()
 
 

@@ -9,12 +9,13 @@ dynamic = ["version"]
 requires-python = ">=3.12"
 dependencies = ["pyqt6>=6.9.1", "python3-discogs-client>=2.8"]
 
-[project.optional-dependencies]
+[dependency-groups]
 dev = [
     "black>=25.1.0",
     "pyinstaller>=6.19.0",
     "pytest>=8.4.1",
     "pytest-qt>=4.5.0",
+    "pytest-stub>=1.1.0",
 ]
 
 [tool.black]
@@ -22,4 +23,18 @@ line-length = 88
 target-version = ['py312']
 
 [tool.setuptools.dynamic]
-version = { file = "discogsrenamer/version.py" }
+version = { attr = "discogsrenamer.version.version" }
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["discogsrenamer*"]
+
+[tool.uv]
+package = true
+
+[project.scripts]
+discogsrenamer = "discogsrenamer.main:main"

@@ -1,8 +1,9 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
-from dataclasses import is_dataclass, asdict
+from dataclasses import asdict
 import os
 import sys
 from pathlib import Path
+from typing import Any
 
 from discogsrenamer.core.filename_rules import get_invalid_filename_characters
 from discogsrenamer.core.models.track_data import TrackData
@@ -20,19 +21,18 @@ def open_folder_dialog(parent: QtWidgets.QWidget | None, initial_folder: str) ->
     )
 
 
-def to_dict(obj) -> dict:
-    """Flatten dataclass objects into a dict, including nested release."""
-    if is_dataclass(obj):
-        d = asdict(obj)
-        # If there's a nested release, merge its fields into the top-level dict
-        if "release" in d and isinstance(d["release"], dict):
-            release_fields = d.pop("release")
-            d.update(release_fields)
-        return d
+# Flatten TrackData dataclass objects into a dict, including nested release
+def track_data_to_dict(track_data: TrackData) -> dict[str, Any]:
+    d = asdict(track_data)
+    # Merge the nested release's fields into the top-level dict
+    if "release" in d and isinstance(d["release"], dict):
+        release_fields = d.pop("release")
+        d.update(release_fields)
+    return d
 
 
 def format_filename(template: str, track_data: TrackData, track_num: str) -> str:
-    flat_dict = to_dict(track_data)
+    flat_dict = track_data_to_dict(track_data)
     flat_dict["track_num"] = track_num
     safe = (
         template.replace("%ra", "{release_artists}")
