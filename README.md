@@ -39,6 +39,25 @@ It retrieves release tracklisting data, allows you to match tracks to files, and
     ./DiscogsRenamer-*.AppImage
     ```
 
+    If you see a message like
+
+    ```bash
+    dlopen(): error loading libfuse.so.2
+
+    AppImages require FUSE to run. 
+    You might still be able to extract the contents of this AppImage 
+    if you run it with the --appimage-extract option. 
+    See https://github.com/AppImage/AppImageKit/wiki/FUSE 
+    for more information
+    ```
+    then you will need to install FUSE v2.  Modern distros ship with FUSE v3, but AppImages are built to run on FUSE v2
+
+    It is ok to install fuse2 alongside fuse3:
+
+    ```bash
+    sudo apt install libfuse2
+    ```
+
 ## Developer Setup (Linux)
 
 1. Install system dependencies
